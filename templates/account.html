@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+
+
+<div class="account">
+    <!-- See https://github.com/firebase/firebaseui-web. -->
+    <!-- [START gae_python38_auth_init_firebase] -->
+    <!-- [START gae_python3_auth_init_firebase] -->
+    <!-- *******************************************************************************************
+        * TODO(DEVELOPER): Paste the initialization snippet from:
+        * http://console.firebase.google.com > Overview > Add Firebase to your web app.
+        ***************************************************************************************** -->
+    <!-- [END gae_python3_auth_init_firebase] -->
+    <!-- [END gae_python38_auth_init_firebase] -->
+    <!-- [START gae_python38_auth_include_firebaseui] -->
+    <!-- [START gae_python3_auth_include_firebaseui] -->
+    <script src="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.5.0/firebase-ui-auth.css">
+    <!-- [END gae_python3_auth_include_firebaseui] -->
+    <!-- [END gae_python38_auth_include_firebaseui] -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <h1>Datastore and Firebase Auth Example</h1>
+        <!-- [START gae_python38_auth_firebase_html] -->
+        <!-- [START gae_python3_auth_firebase_html] -->
+        <div id="firebaseui-auth-container"></div>
+        <button id="sign-out" hidden=true>Sign Out</button>
+        <div id="login-info" hidden=true>
+            <h2>Login info:</h2>
+            {% if user_data %}
+                <dl>
+                    <dt>Name</dt><dd>{{ user_data['name'] }}</dd>
+                    <dt>Email</dt><dd>{{ user_data['email'] }}</dd>
+                    <dt>Last 10 visits</dt><dd>
+                    {% for time in times %}
+                        <p>{{ time['timestamp'] }}</p>
+                        {% endfor %} </dd>
+                </dl>
+            {% elif error_message %}
+                <p>Error: {{ error_message }}</p>
+            {% endif %}
+        </div>
+        <!-- [END gae_python3_auth_firebase_html] -->
+        <!-- [END gae_python38_auth_firebase_html] -->
+    </div>
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-analytics.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        var firebaseConfig = {
+            apiKey: "AIzaSyBdEkS9JSHcHReiE8RngoXD7yTta-us5gk",
+            authDomain: "assignment-332511.firebaseapp.com",
+            projectId: "assignment-332511",
+            storageBucket: "assignment-332511.appspot.com",
+            messagingSenderId: "933317959193",
+            appId: "1:933317959193:web:bd045c164e98bef6d01488",
+            measurementId: "G-PHHGSLFTG8"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
+
+{% endblock %}
