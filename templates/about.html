@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% set active_page = "about" %}
+{% block content %}
+
+<div class="offer">
+    <div class = "small-container">
+        <div class ="row">
+            <div class = "col-2">
+                <img src="static/favicon.png" class="offer-img">
+            </div>
+            <div class ="col-2">
+                <p></p>
+                <h1>About Us</h1>
+                <p> We are a new luxury service and furniture store that sell furniture and offers interiordesign services. Qualified interior designers are on hand to help you design your home interior and recommend which product will best suit you. Wether this is sleek and modern or comfy and cosey, we are here to help make your house a dream home.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<br></br>
+
+<div class = "small-container">
+    <div class="reviews">
+        <div class="small-container">    
+            <h2 style="text-align:center">Our Team</h2>
+            <div class="row">
+                <div class="col-3">
+                    <img src="static/headshot1.jpg" width:"75%">
+                    <div class="aboutcontainer">
+                        <h2>Jess Smith</h2>
+                        <p class="aboutrole">CEO & Founder</p>
+                        <small>I am the ceo and founder of this great company. I have put many hour into creating and making this happen and aim to evolve the company in the future</small>
+                        <br></br>
+                        <small>jsmith@adfurniture.com</small>
+                    </div>
+                </div>
+            
+                <div class="col-3">
+                    <img src="static/headshot2.jpg" width:"75%">
+                    <div class="aboutcontainer">
+                        <h2>Joe Tate</h2>
+                        <p class="aboutrole">Director</p>
+                        <small>I joined in 2019 and i took the role as Director, I manage its daily business activities and finances</small>
+                        <br></br>
+                        <small>jtate@adfurniture.com</small>
+                    </div>
+                </div>
+            
+                <div class="col-3">
+                    <img src="static/headshot3.jpg" width:"75%">
+                    <div class="aboutcontainer">
+                        <h2>Jerome Seinfeld</h2>
+                        <p class="aboutrole">PR & marketing</p>
+                        <small>Ex-comedian now working for this great company selling to end furniture</small>
+                        <br></br>
+                        <small>jseinfeld@adfurniture.com</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
