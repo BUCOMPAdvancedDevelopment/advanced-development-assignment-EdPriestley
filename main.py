@@ -183,16 +183,16 @@ def newOrder():
     
 
 
-@app.route('/subOrder')
+@app.route('/subOrder',methods=['GET', 'POST'])
 def subOrder():
-    return render_template('afterOrder.html')
+    return render_template('afterOrder.html', name=name, email=email, item=item, address=address, postcode=postcode, eta=eta)
 
 
 #------------------Amend Orders----------
 @app.route('/amendOrder')
 def amendOrder():
     return render_template(
-        'amendOrder.html')
+        'amendOrder.html') 
 
 
 @app.route('/afterAmend', methods=['GET', 'POST'])
