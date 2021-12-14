@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% set active_page = "afterAmend" %}
+{% block content %}
+
+<br>
+<br>
+
+<div class="offer">
+    <div class = "small-container">
+        <h2 class = "title">You have amended your order:</h2>
+            <br>
+            <h2 class="userInfoTitle">Order ID:</h2>
+            <h2 class="userInfo">{{orderNo}}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Full Name:</h2>
+            <h2 class="userInfo">{{name}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Email:</h2>
+            <h2 class="userInfo">{{name}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Item:</h2>
+            <h2 class="userInfo">{{item}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Address:</h2>
+            <h2 class="userInfo">{{address}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Postcode:</h2>
+            <h2 class="userInfo">{{postcode}}</h2>
+            <br>
+            <h2 class="userInfoTitle">Delivery Date:</h2>
+            <h2 class="userInfo">{{eta}}</h2>
+            <br>
+</div>
+
+{% endblock %}
+

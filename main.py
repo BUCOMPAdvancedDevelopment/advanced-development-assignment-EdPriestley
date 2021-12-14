@@ -188,6 +188,30 @@ def subOrder():
     return render_template('afterOrder.html')
 
 
+#------------------Amend Orders----------
+@app.route('/amendOrder')
+def amendOrder():
+    return render_template(
+        'amendOrder.html')
+
+
+@app.route('/afterAmend', methods=['GET', 'POST'])
+def afterAmend():
+    if request.method=='GET':
+        return render_template('home.html')   
+    else:
+        orderNo = request.form['orderNo']
+        name = request.form['name']
+        email = request.form['email']
+        item = request.form['item']
+        address = request.form['address']
+        postcode = request.form['postcode']
+        eta = datetime.datetime.now() + datetime.timedelta(days=7)
+        eta = eta.date().strftime("%d%m%Y")
+        amend_post_mongodb(orderNo, name, email, item, address, postcode, eta)
+        return render_template('afterAmend.html', orderNo=orderNo, name=name, email=email, item=item, address=address, postcode=postcode, eta=eta)
+
+
 
 
 #------------------Delete Orders----------
