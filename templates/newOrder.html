@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% set active_page = "newOrder" %}
+{% block content %}
+
+<br>
+<br>
+<title>Submit Order</title>
+
+
+<div class="order">
+    <div class = "small-container">
+        <h2 class = "title">Submit An Order</h2>
+        <div class ="row">
+            <div class="nop1">
+                <br>
+                <br>
+                <img src="static/logo.jpeg" class="offer-img" width="75%" height=auto>
+                <br>
+                <p>Welcome to AD funiture</p>
+                <br>
+                <h1>Please fill out the form to submit an order</h1>
+                <br>
+                <small>All orders can be viewed, amended and deleted once they have been submitted. Please look to the navigation bar to do this</small>
+            </div>
+            <div class="nop2">
+                <br>
+                <br>
+                <form class="newOrder" action="{{ url_for('subOrder') }}" method="post">
+                    <label for="name">Enter Name:</label>
+                    <input type="text" name="name" id="name">
+                    <br>
+                    <label for="email">Enter Email:</label>
+                    <input type="text" name="email" id="email">
+                    <br>
+                    <label for="name">Enter Order Item:</label>
+                    <input type="text" name="item" id="item">
+                    <br>
+                    <label for="name">Enter Address:</label>
+                    <input type="text" name="address" id="address">
+                    <br>
+                    <label for="name">Enter Postcode:</label>
+                    <input type="text" name="postcode" id="postcode">
+                    <br>
+                    <input type="submit" value="Submit">
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}

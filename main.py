@@ -1,73 +1,37 @@
+#import packages needed
 import datetime
-from flask import Flask, render_template, request
-from google.auth.transport import requests
+from flask import Flask, render_template, request, jsonify,redirect, url_for
+import json
+import requests
+from google.auth.transport import requests as grequests
 from google.cloud import datastore
 import google.oauth2.id_token
+import pymongo
 import logging
+from bson.objectid import ObjectId
 
-
-
-
-firebase_request_adapter = requests.Request()
+#connect to firebase
+firebase_request_adapter = grequests.Request()
 
 # [START gae_python38_datastore_store_and_fetch_user_times]
 # [START gae_python3_datastore_store_and_fetch_user_times]
 datastore_client = datastore.Client()
 
-# [END gae_python3_datastore_store_and_fetch_user_times]
-# [END gae_python38_datastore_store_and_fetch_user_times]
-
-
-#------------------Defines flask app as "__name__"------------------
+#configure flask
 app = Flask(__name__)
 
-#------------------DEFINE APP ROUTES----------
-@app.route('/')
 
-@app.route('/home')
-def home():
-    return render_template('home.html')
-
-@app.route('/userOrders')
-def userOrders():
-    return render_template('userOrders.html')
-
-@app.route('/about')
-def about():
-    return render_template('about.html')
-
-@app.route('/account')
-def register():
-    return render_template('account.html')   
-
-
-@app.route('/submitted_order', methods=['POST'])
-def submitted_order():
-    name = request.form['name']
-    email = request.form['email']
-    item = request.form['item']
-    address = request.form['address']
-    postcode = request.form['postcode']
-    eta = request.form['eta']
-   
-    return render_template(
-    'submitted_order.html',
-        name=name,
-        email=email,
-        item=item,
-        address=address,
-        postcode=postcode,
-        eta=eta)
-
-
-#------------------get user info------------------
+#Get users email from firebase
 def store_time(email, dt):
     entity = datastore.Entity(key=datastore_client.key('User', email, 'visit'))
     entity.update({
         'timestamp': dt
     })
+
     datastore_client.put(entity)
 
+
+#Get the last 3 logind of user from firebase
 def fetch_times(email, limit):
     ancestor = datastore_client.key('User', email)
     query = datastore_client.query(kind='visit', ancestor=ancestor)
@@ -76,13 +40,64 @@ def fetch_times(email, limit):
     return times
 
 
-def root():
+#Configure MongoDB connection
+mongoClient = pymongo.MongoClient(
+   "mongodb+srv://edward:Edward99@assignment.8snc4.mongodb.net/assignment?retryWrites=true&w=majority")
+mongoDB = mongoClient['ADUnit']
+
+
+# Stores the order into Mongo collection
+def store_post_mongodb(name, email, item, address, postcode, eta):
+    collection = mongoDB['orders']
+    # email will not be added, as author parameter will be used to identify individual users posts
+    json_data = {"name": name, "email": email, "item": item, "address": address,
+                 "postcode": postcode,"eta": eta}
+    collection.insert_one(json_data).inserted_id    
+
+# Amends the order into Mongo collection 
+def amend_post_mongodb(orderNo, name, email, item, postcode, address, eta):
+    collection = mongoDB['orders']
+    query = {"_id": ObjectId(orderNo)}
+    newData = {"name": name, "email": email, "item": item, "address": address,
+                 "postcode": postcode,"eta": eta}
+    collection.replace_one(query, newData)
+
+
+# delete the order into Mongo collection 
+def delete_post_mongodb(orderNo):
+    collection = mongoDB['orders']
+    query = {"_id": ObjectId(orderNo)}
+    collection.delete_one(query)
+
+
+#------------------Define Routes----------
+@app.route('/')
+@app.route('/home')
+def home():
+    return render_template('home.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/signUp')
+def signUp():
+    return render_template('signUp.html')
+
+
+
+
+
+@app.route('/newOrder')
+def newOrder():
     # Verify Firebase auth.
     id_token = request.cookies.get("token")
     error_message = None
     claims = None
-    times = None
-
     if id_token:
         try:
             # Verify the token against the Firebase Auth API. This example
@@ -92,22 +107,21 @@ def root():
             # http://flask.pocoo.org/docs/1.0/quickstart/#sessions).
             claims = google.oauth2.id_token.verify_firebase_token(
                 id_token, firebase_request_adapter)
-
-            store_time(claims['email'], datetime.datetime.now())
-            times = fetch_times(claims['email'], 10)
-
         except ValueError as exc:
             # This will be raised if the token is expired or any other
             # verification checks fail.
             error_message = str(exc)
-
+    else:
+        return redirect("/login")
     return render_template(
-        'index.html',
-        user_data=claims, error_message=error_message, times=times)
+        'newOrder.html')
+
+    
 
 
-
-
+@app.route('/subOrder')
+def subOrder():
+    return render_template('afterOrder.html')
 
 
 #------------------Error Handlers----------
@@ -121,7 +135,9 @@ def server_error(e):
 def page_not_found(error):
     return render_template('404.html'), 404
 
-#------------------If we run this in python directly----------
+
+
+
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
     # Engine, a webserver process such as Gunicorn will serve the app. This
