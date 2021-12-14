@@ -190,6 +190,22 @@ def subOrder():
 
 
 
+#------------------Delete Orders----------
+@app.route('/deleteOrder')
+def deleteOrder():
+    return render_template(
+        'deleteOrder.html')
+
+
+@app.route('/afterDelete', methods=['GET', 'POST'])
+def afterDelete():
+    if request.method=='GET':
+        return render_template('home.html')   
+    else:
+        orderNo = request.form['orderNo']
+        delete_post_mongodb(orderNo)
+        return render_template('afterDelete.html', orderNo=orderNo)
+
 
  
 

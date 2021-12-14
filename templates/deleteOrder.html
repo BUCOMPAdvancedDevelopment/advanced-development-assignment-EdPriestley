@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% set active_page = "deleteOrder" %}
+{% block content %}
+
+<br>
+<br>
+<title>Delete Order</title>
+<div class="order">
+    <h2 class = "title">Delete an Order</h2>
+    <div class = "small-container">
+        <div class ="row">
+            <div class="nop1">
+                <br>
+                <br>
+                <img src="static/logo.jpeg" class="offer-img" width="75%" height=auto>
+                <br>
+                <p>Delete Your Order</p>
+                <br>
+                <h1>Please fill out the form to delete an order</h1>
+                <br>
+                <small>Enter order ID then click confirm to delete order</small>
+                <br>
+            </div>
+            <div class="nop2">
+                <br>
+                <br>
+                <form class="newOrder" action="{{ url_for('afterDelete') }}" method="post">
+                    <label for="name">Enter Order Number:</label>
+                    <input type="text" name="orderNo" id="orderNo">
+                    <input type="submit" value="Submit">
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}
