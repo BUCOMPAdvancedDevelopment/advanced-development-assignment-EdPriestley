@@ -468,7 +468,53 @@ input[type=submit]:hover {
     background: radial-gradient(#fff, #D3D3D3);
 }
 
+/*----------404 Page-----------*/
 
+.error{
+    flex-basis: 30%;
+    min-width: 1000px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.error p{
+    font-size: 400px;
+    color: #ff523b;
+    text-align: center;
+}
+
+.error h2{
+    font-size: 75px;
+    color: #ff523b;
+    text-align: center;
+}
+
+.error h1{
+    font-size: 25px;
+    text-align: center;
+}
+
+
+.error h3{
+    font-size: 40px;
+    text-align: center;
+}
+
+.errorButton {
+    background-color: #ff523b;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    width: 150px;
+    height: auto;
+    border-radius: 12px;
+    align-content: center;
+    text-align: center;
 }
 
 /*----------account page-----------*/

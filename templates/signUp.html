@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% set active_page = "signUp" %}
+{% block content %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+<title>Registration Form</title>
+
+<br>
+<br>
+
+<div class="order">
+    <div class = "small-container">
+        <h2 class = "title">Sign Up</h2>
+        <div class ="row">
+            <div class="nop1">
+                <br>
+                <br>
+                <img src="static/logo.jpeg" class="offer-img" width="75%" height=auto>
+                <br>
+                <p>Welcome to AD funiture</p>
+                <br>
+                <h1>Please fill out the form to sign Up</h1>
+                <br>
+            </div>
+            <div class="nop2">
+                <br>
+                <br>
+                <form class="newOrder" action="" method="post" id="registrationform">
+                    <label for="email">Enter Email:</label>
+                    <input type="email" name="email" id="email">
+                    <br>
+                    <label for="name">Enter Password:</label>
+                    <input type="password" name="passwprd" id="password">
+                    <br>
+                    <button type="submit" >Register</button>
+                    <br>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.9.0/firebase-firestore.js"></script>
+<script>
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+var firebaseConfig = {
+    apiKey: "AIzaSyBdEkS9JSHcHReiE8RngoXD7yTta-us5gk",
+    authDomain: "assignment-332511.firebaseapp.com",
+    projectId: "assignment-332511",
+    storageBucket: "assignment-332511.appspot.com",
+    messagingSenderId: "933317959193",
+    appId: "1:933317959193:web:bd045c164e98bef6d01488",
+    measurementId: "G-PHHGSLFTG8"
+};
+firebase.initializeApp(firebaseConfig);
+
+//make auth and firestore references
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+//update firestore settings
+db.settings({ timestampsInSnapshots: True });
+</script>
+
+<script src="static/auth.js"></script>
+
+{% endblock %}
