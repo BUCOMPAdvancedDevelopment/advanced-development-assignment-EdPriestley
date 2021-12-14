@@ -89,15 +89,14 @@ def signUp():
     return render_template('signUp.html')
 
 
-
-
-
-@app.route('/newOrder')
-def newOrder():
+@app.route('/account')
+def account():
     # Verify Firebase auth.
     id_token = request.cookies.get("token")
     error_message = None
     claims = None
+    times = None
+
     if id_token:
         try:
             # Verify the token against the Firebase Auth API. This example
@@ -107,22 +106,62 @@ def newOrder():
             # http://flask.pocoo.org/docs/1.0/quickstart/#sessions).
             claims = google.oauth2.id_token.verify_firebase_token(
                 id_token, firebase_request_adapter)
+
+            store_time(claims['email'], datetime.datetime.now())
+            times = fetch_times(claims['email'], 3)
+           
+
         except ValueError as exc:
             # This will be raised if the token is expired or any other
             # verification checks fail.
             error_message = str(exc)
     else:
         return redirect("/login")
+
     return render_template(
-        'newOrder.html')
+        'account.html',
+        user_data=claims, error_message=error_message, times=times)
+
+
+@app.route('/userOrders')
+def getOrders():
+    # Verify Firebase auth.
+    id_token = request.cookies.get("token")
+    error_message = None
+    claims = None
+    times = None
+
+    if id_token:
+        try:
+            # Verify the token against the Firebase Auth API. This example
+            # verifies the token on each page load. For improved performance,
+            # some applications may wish to cache results in an encrypted
+            # session store (see for instance
+            # http://flask.pocoo.org/docs/1.0/quickstart/#sessions).
+            claims = google.oauth2.id_token.verify_firebase_token(
+                id_token, firebase_request_adapter)
+            email=claims['email']
+            url = "https://europe-west2-assignment-332511.cloudfunctions.net/helloworld?email=" + email
+            uResponse = requests.get(url)
+            jResponse = uResponse.text
+            data = json.loads(jResponse)
+        
+        except ValueError as exc:
+            # This will be raised if the token is expired or any other
+            # verification checks fail.
+            error_message = str(exc)
+    else:
+        return redirect("/login")
+    return render_template('userOrders.html', data=data) 
+
+
+
+
 
     
 
 
-@app.route('/subOrder')
-def subOrder():
-    return render_template('afterOrder.html')
-
+ 
 
 #------------------Error Handlers----------
 @app.errorhandler(500)
